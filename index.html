@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KI kompakt — Künstliche Intelligenz, einfach erklärt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg:         #F7F7F7;
+      --bg-white:   #FFFFFF;
+      --text:       #0D1117;
+      --text-56:    rgba(13, 17, 23, 0.56);
+      --text-32:    rgba(13, 17, 23, 0.32);
+      --text-16:    rgba(13, 17, 23, 0.12);
+      --accent:     #4A7AB5;
+      --accent-dark:#3A6499;
+      --border:     rgba(13, 17, 23, 0.10);
+      --border-mid: rgba(13, 17, 23, 0.16);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: none;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-width: 320px;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { display: none !important; }
+    ::selection { background: #0D1117; color: #F7F7F7; }
+
+    /* ─── TYPOGRAPHY ─────────────────────────────── */
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--text-56);
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(247,247,247,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.25s ease;
+    }
+
+    .nav-logo {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-56);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 22px;
+      background: var(--text);
+      color: var(--bg) !important;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+
+    .nav-cta:hover { background: #2a2a2a; color: var(--bg) !important; }
+    .nav-cta:active { transform: scale(0.97); }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+    }
+
+    /* ─── HERO ───────────────────────────────────── */
+    .hero {
+      padding: 160px 48px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--border-mid);
+      background: var(--bg-white);
+      margin-bottom: 32px;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4A7AB5;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 6vw, 80px);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      color: var(--text);
+      max-width: 800px;
+      margin: 0 auto 24px;
+    }
+
+    .hero h1 span {
+      color: var(--text-56);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-56);
+      max-width: 520px;
+      margin: 0 auto 44px;
+    }
+
+    /* ─── EMAIL FORM ─────────────────────────────── */
+    .form-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 460px;
+      background: var(--bg-white);
+      border: 1px solid var(--border-mid);
+      border-radius: 100px;
+      padding: 6px 6px 6px 20px;
+      box-shadow: 0 2px 16px rgba(13,17,23,0.06), 0 1px 3px rgba(13,17,23,0.04);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .email-form:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(74,122,181,0.12), 0 2px 16px rgba(13,17,23,0.06);
+    }
+
+    .email-form input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: transparent;
+      min-width: 0;
+    }
+
+    .email-form input::placeholder { color: var(--text-32); }
+
+    .form-btn {
+      flex-shrink: 0;
+      padding: 11px 22px;
+      background: var(--text);
+      color: var(--bg);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .form-btn:hover { background: #2a2a2a; }
+    .form-btn:active { transform: scale(0.97); }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-32);
+    }
+
+    .form-error {
+      display: none;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #d04040;
+    }
+
+    .success-box {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-white);
+      border: 1px solid var(--border-mid);
+      border-radius: 16px;
+      padding: 16px 22px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--text-56);
+    }
+
+    .success-box.show {
+      display: flex;
+    }
+
+    .success-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 120px 24px 72px; }
+      .email-form { flex-direction: column; border-radius: 16px; padding: 14px 16px; gap: 10px; }
+      .form-btn { border-radius: 12px; padding: 14px 20px; }
+    }
+
+    /* ─── PREVIEW STRIP ──────────────────────────── */
+    .preview-strip {
+      width: 100%;
+      overflow: hidden;
+      background: var(--bg-white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .preview-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 64px 48px;
+    }
+
+    .newsletter-mockup {
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--bg-white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 48px rgba(13,17,23,0.10), 0 2px 12px rgba(13,17,23,0.06);
+      border: 1px solid var(--border);
+    }
+
+    .mockup-topbar {
+      background: #F0F0F0;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot-r { width: 12px; height: 12px; border-radius: 50%; background: #FF5F57; }
+    .dot-y { width: 12px; height: 12px; border-radius: 50%; background: #FFBD2E; }
+    .dot-g { width: 12px; height: 12px; border-radius: 50%; background: #28CA41; }
+
+    .mockup-body {
+      padding: 40px 52px 48px;
+    }
+
+    .mockup-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .mockup-headline {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .mockup-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 24px 0;
+    }
+
+    .mockup-topics {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .mockup-topic {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .topic-tag {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .topic-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .preview-inner { padding: 40px 24px; }
+      .mockup-body { padding: 28px 24px 32px; }
+      .mockup-topics { grid-template-columns: 1fr; gap: 10px; }
+      .mockup-headline { font-size: 20px; }
+    }
+
+    /* ─── TOPICS GRID ────────────────────────────── */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 88px 48px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      gap: 16px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .see-all {
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-56);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--border-mid);
+      transition: color 0.2s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .see-all:hover { color: var(--text); border-color: var(--text); }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .topic-card {
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .topic-card-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      position: relative;
+      border: 1px solid var(--border);
+      transition: box-shadow 0.25s ease;
+    }
+
+    .topic-card:hover .topic-card-img {
+      box-shadow: 0 12px 40px rgba(13,17,23,0.12);
+    }
+
+    .topic-card-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .topic-card:hover .topic-card-inner {
+      transform: scale(1.03);
+    }
+
+    .topic-card-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+      letter-spacing: -0.01em;
+    }
+
+    .topic-card-cat {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-56);
+    }
+
+    /* Color themes for topic cards */
+    .tc-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .tc-2 { background: linear-gradient(135deg, #0d1b2a 0%, #1b4332 60%, #52b788 100%); }
+    .tc-3 { background: linear-gradient(135deg, #2d1b4e 0%, #533483 60%, #8338ec 100%); }
+    .tc-4 { background: linear-gradient(135deg, #1a0a00 0%, #6b2d0f 60%, #e76f51 100%); }
+    .tc-5 { background: linear-gradient(135deg, #001f3f 0%, #003d7a 60%, #2196f3 100%); }
+    .tc-6 { background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 60%, #4A7AB5 100%); }
+
+    @media (max-width: 900px) {
+      .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 56px 24px; }
+      .topics-grid { grid-template-columns: 1fr; gap: 16px; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ─── STATEMENT ──────────────────────────────── */
+    .statement-section {
+      background: var(--bg-white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .statement-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .statement-left h2 {
+      font-size: clamp(32px, 4vw, 54px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .statement-left p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-56);
+      max-width: 480px;
+    }
+
+    .venn-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 280px;
+    }
+
+    .venn-circle {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .venn-a {
+      left: 50%;
+      transform: translateX(-95%);
+      background: rgba(13,17,23,0.08);
+      color: var(--text);
+      border: 1.5px solid var(--border-mid);
+    }
+
+    .venn-b {
+      left: 50%;
+      transform: translateX(-5%);
+      background: rgba(74,122,181,0.12);
+      color: var(--accent);
+      border: 1.5px solid rgba(74,122,181,0.25);
+    }
+
+    .venn-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 2;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .statement-inner { grid-template-columns: 1fr; gap: 48px; }
+      .venn-wrap { height: 220px; }
+      .venn-circle { width: 140px; height: 140px; }
+    }
+
+    @media (max-width: 600px) {
+      .statement-inner { padding: 64px 24px; }
+    }
+
+    /* ─── TESTIMONIALS ───────────────────────────── */
+    .testimonials-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 88px 48px;
+    }
+
+    .testimonial-header {
+      margin-bottom: 48px;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: var(--border-mid);
+      box-shadow: 0 4px 24px rgba(13,17,23,0.06);
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 14px;
+    }
+
+    .star {
+      width: 14px;
+      height: 14px;
+      color: #F5C518;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--bg);
+      flex-shrink: 0;
+    }
+
+    .av-1 { background: #4A7AB5; }
+    .av-2 { background: #2d6a4f; }
+    .av-3 { background: #533483; }
+
+    .author-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: block;
+    }
+
+    .author-role {
+      font-size: 12px;
+      color: var(--text-56);
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .testimonial-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .testimonials-section { padding: 56px 24px; }
+    }
+
+    /* ─── SIGNUP SECTION ──────────────────────────── */
+    .signup-section {
+      background: var(--text);
+      padding: 88px 48px;
+    }
+
+    .signup-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .signup-inner .label { color: rgba(247,247,247,0.48); }
+
+    .signup-inner h2 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: #F7F7F7;
+      margin: 16px 0 14px;
+    }
+
+    .signup-inner p {
+      font-size: 16px;
+      color: rgba(247,247,247,0.56);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+
+    .signup-form {
+      display: flex;
+      gap: 8px;
+      background: rgba(247,247,247,0.1);
+      border: 1px solid rgba(247,247,247,0.18);
+      border-radius: 100px;
+      padding: 6px 6px 6px 20px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .signup-form:focus-within {
+      border-color: rgba(247,247,247,0.4);
+      box-shadow: 0 0 0 3px rgba(247,247,247,0.08);
+    }
+
+    .signup-form input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 14px;
+      color: #F7F7F7;
+      background: transparent;
+      min-width: 0;
+    }
+
+    .signup-form input::placeholder { color: rgba(247,247,247,0.36); }
+
+    .signup-btn {
+      flex-shrink: 0;
+      padding: 11px 22px;
+      background: #F7F7F7;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .signup-btn:hover { background: #ffffff; }
+    .signup-btn:active { transform: scale(0.97); }
+
+    .signup-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(247,247,247,0.32);
+    }
+
+    .signup-error {
+      display: none;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #f87272;
+    }
+
+    .signup-success {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+      font-size: 14px;
+      color: rgba(247,247,247,0.72);
+    }
+
+    .signup-success.show { display: flex; }
+
+    @media (max-width: 600px) {
+      .signup-section { padding: 64px 24px; }
+      .signup-form { flex-direction: column; border-radius: 16px; padding: 14px 16px; gap: 10px; }
+      .signup-btn { border-radius: 12px; padding: 14px 20px; }
+    }
+
+    /* ─── FOOTER ─────────────────────────────────── */
+    footer {
+      background: var(--bg-white);
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      opacity: 0.65;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-logo:hover { opacity: 1; }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-56);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-32);
+    }
+
+    @media (max-width: 768px) {
+      footer { padding: 32px 24px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <img src="Brand_assets/ki_kompakt_logo.png" alt="KI kompakt" class="nav-logo" />
+    <ul class="nav-links">
+      <li><a href="#themen">Themen</a></li>
+      <li><a href="#ueber">Über</a></li>
+    </ul>
+    <a href="#signup-section" class="nav-links nav-cta" style="list-style:none;text-decoration:none;" onclick="document.getElementById('signup-email').focus();return false;">
+      Jetzt anmelden
+    </a>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero" id="hero">
+
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      <span class="label">Newsletter · Kostenlos</span>
+    </div>
+
+    <h1>
+      Künstliche Intelligenz,<br/>
+      <span>einfach erklärt.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Der kompakte Newsletter über KI — ohne Fachwissen, ohne Zeitverlust.
+      Jede Woche das Wichtigste, direkt in dein Postfach.
+    </p>
+
+    <div id="signup" class="form-wrap">
+      <div style="width:100%;max-width:460px;">
+        <form id="heroForm" novalidate>
+          <div class="email-form">
+            <label for="heroEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">E-Mail</label>
+            <input id="heroEmail" type="email" placeholder="deine@email.de" autocomplete="email" required />
+            <button type="submit" class="form-btn">Kostenlos anmelden</button>
+          </div>
+        </form>
+        <p class="form-error" id="heroError">Bitte gib eine gültige E-Mail-Adresse ein.</p>
+        <div class="success-box" id="heroSuccess">
+          <svg class="success-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>Du bist dabei! Schau in dein Postfach.</span>
+        </div>
+        <p class="form-note">Kein Spam. Jederzeit kündbar.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ── NEWSLETTER PREVIEW ── -->
+  <div class="preview-strip">
+    <div class="preview-inner">
+      <p class="label" style="text-align:center;margin-bottom:20px;">Beispiel-Ausgabe</p>
+      <div class="newsletter-mockup">
+        <div class="mockup-topbar">
+          <div class="dot-r"></div>
+          <div class="dot-y"></div>
+          <div class="dot-g"></div>
+        </div>
+        <div class="mockup-body">
+          <p class="mockup-label">KI kompakt · Ausgabe #42</p>
+          <h3 class="mockup-headline">GPT-5 — Was das für Sie bedeutet</h3>
+          <p style="font-size:14px;line-height:1.7;color:var(--text-56);max-width:580px;">
+            OpenAI hat diese Woche GPT-5 veröffentlicht — und das Modell setzt neue Maßstäbe in Sachen Reasoning und Sprachverständnis. Wir erklären, was sich konkret verändert und welche Auswirkungen das auf Ihren Alltag hat.
+          </p>
+          <div class="mockup-divider"></div>
+          <div class="mockup-topics">
+            <div class="mockup-topic">
+              <p class="topic-tag">KI-Tools</p>
+              <p class="topic-title">Midjourney V7 im Test</p>
+            </div>
+            <div class="mockup-topic">
+              <p class="topic-tag">Regulierung</p>
+              <p class="topic-title">EU AI Act: Was gilt ab 2025?</p>
+            </div>
+            <div class="mockup-topic">
+              <p class="topic-tag">Praxis</p>
+              <p class="topic-title">KI im Büro: 5 Workflows</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOPICS GRID ── -->
+  <section class="section" id="themen">
+    <div class="section-header">
+      <div>
+        <p class="label" style="margin-bottom:8px;">Aktuelle Themen</p>
+        <h2>Was wir diese<br/>Woche erklären</h2>
+      </div>
+      <a href="#signup" class="see-all" onclick="document.getElementById('heroEmail').focus();return false;">Newsletter abonnieren →</a>
+    </div>
+
+    <div class="topics-grid">
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-1">GPT-5</div>
+        </div>
+        <p class="topic-card-name">OpenAI GPT-5</p>
+        <p class="topic-card-cat">Sprachmodelle</p>
+      </a>
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-2">Gemini</div>
+        </div>
+        <p class="topic-card-name">Google Gemini 2.0</p>
+        <p class="topic-card-cat">KI-Assistenten</p>
+      </a>
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-3">Sora</div>
+        </div>
+        <p class="topic-card-name">Sora — KI-Videogenerator</p>
+        <p class="topic-card-cat">Bildgenerierung</p>
+      </a>
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-4">EU AI</div>
+        </div>
+        <p class="topic-card-name">EU AI Act</p>
+        <p class="topic-card-cat">Regulierung</p>
+      </a>
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-5">Deep</div>
+        </div>
+        <p class="topic-card-name">DeepSeek R2</p>
+        <p class="topic-card-cat">Open Source KI</p>
+      </a>
+
+      <a class="topic-card" href="#signup" onclick="return false;">
+        <div class="topic-card-img">
+          <div class="topic-card-inner tc-6">Agents</div>
+        </div>
+        <p class="topic-card-name">KI-Agenten im Alltag</p>
+        <p class="topic-card-cat">Praxis</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── STATEMENT ── -->
+  <section class="statement-section" id="ueber">
+    <div class="statement-inner">
+      <div class="statement-left">
+        <p class="label" style="margin-bottom:16px;">Unser Ansatz</p>
+        <h2>Wo Technologie<br/>auf Alltag trifft</h2>
+        <p style="margin-top:20px;">
+          KI kompakt steht an der Schnittstelle von technologischer Tiefe und praktischer Relevanz.
+          Wir übersetzen komplexe KI-Entwicklungen in verständliche Erkenntnisse — für alle,
+          die wissen wollen, wie KI ihr Leben und ihre Arbeit verändert.
+        </p>
+      </div>
+      <div class="venn-wrap">
+        <div class="venn-circle venn-a">Technologie</div>
+        <div class="venn-circle venn-b">Alltag</div>
+        <div class="venn-center">KI<br/>kompakt</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TESTIMONIALS ── -->
+  <section class="testimonials-section">
+    <div class="testimonial-header">
+      <p class="label" style="margin-bottom:8px;">Was Leser sagen</p>
+      <h2 style="font-size:clamp(28px,3.5vw,44px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;">
+        Über 2.000 Leser<br/>vertrauen KI kompakt
+      </h2>
+    </div>
+
+    <div class="testimonial-grid">
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+        </div>
+        <p class="testimonial-text">
+          „Endlich ein Newsletter, der KI-Themen so erklärt, dass ich sie wirklich verstehe.
+          Ich verpasse keine Ausgabe mehr."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar av-1">MK</div>
+          <div>
+            <span class="author-name">Monika K.</span>
+            <span class="author-role">Projektmanagerin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+        </div>
+        <p class="testimonial-text">
+          „Kompakt, präzise, auf den Punkt. In 5 Minuten weiß ich mehr über KI als nach stundenlangem Lesen auf Twitter."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar av-2">TR</div>
+          <div>
+            <span class="author-name">Thomas R.</span>
+            <span class="author-role">Unternehmensberater</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-stars">
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.967a1 1 0 00.95.69h4.171c.969 0 1.371 1.24.588 1.81l-3.374 2.452a1 1 0 00-.364 1.118l1.286 3.967c.3.921-.755 1.688-1.54 1.118L10 14.347l-3.373 2.452c-.785.57-1.84-.197-1.54-1.118l1.285-3.967a1 1 0 00-.364-1.118L2.634 9.394c-.783-.57-.38-1.81.588-1.81h4.171a1 1 0 00.95-.69L9.05 2.927z"/></svg>
+        </div>
+        <p class="testimonial-text">
+          „Ich empfehle KI kompakt jedem in meinem Team. Der perfekte Einstieg für alle, die KI ohne Technik-Hintergrund verstehen wollen."
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar av-3">SB</div>
+          <div>
+            <span class="author-name">Sandra B.</span>
+            <span class="author-role">Lehrerin</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SIGNUP SECTION ── -->
+  <section class="signup-section" id="signup-section">
+    <div class="signup-inner">
+      <p class="label">Newsletter abonnieren</p>
+      <h2>Immer auf dem<br/>neuesten Stand.</h2>
+      <p>Jede Woche die wichtigsten KI-Neuigkeiten — kostenlos und kompakt, direkt in dein Postfach.</p>
+
+      <form id="signupForm" novalidate>
+        <div class="signup-form">
+          <label for="signup-email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">E-Mail</label>
+          <input id="signup-email" type="email" placeholder="deine@email.de" autocomplete="email" required />
+          <button type="submit" class="signup-btn">Anmelden</button>
+        </div>
+      </form>
+      <p class="signup-error" id="signupError">Bitte gib eine gültige E-Mail-Adresse ein.</p>
+      <div class="signup-success" id="signupSuccess">
+        <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span>Du bist dabei! Bestätige deine E-Mail-Adresse.</span>
+      </div>
+      <p class="signup-note">Kein Spam. Jederzeit abmeldbar. Datenschutz first.</p>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-inner">
+      <a href="#hero">
+        <img src="Brand_assets/ki_kompakt_logo.png" alt="KI kompakt" class="footer-logo" />
+      </a>
+      <ul class="footer-links">
+        <li><a href="#">Datenschutz</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Kontakt</a></li>
+      </ul>
+      <p class="footer-copy">© 2025 KI kompakt</p>
+    </div>
+  </footer>
+
+  <!-- ── JS ── -->
+  <script>
+    function validateEmail(v) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    // Hero form
+    const heroForm = document.getElementById('heroForm');
+    const heroEmail = document.getElementById('heroEmail');
+    const heroError = document.getElementById('heroError');
+    const heroSuccess = document.getElementById('heroSuccess');
+
+    heroForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!validateEmail(heroEmail.value.trim())) {
+        heroError.style.display = 'block';
+        heroEmail.style.color = '#d04040';
+        return;
+      }
+      heroError.style.display = 'none';
+      heroForm.style.opacity = '0';
+      heroForm.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => {
+        heroForm.style.display = 'none';
+        heroSuccess.classList.add('show');
+      }, 200);
+    });
+
+    heroEmail.addEventListener('input', function() {
+      heroError.style.display = 'none';
+      heroEmail.style.color = '';
+    });
+
+    // Signup form
+    const signupForm = document.getElementById('signupForm');
+    const signupEmail = document.getElementById('signup-email');
+    const signupError = document.getElementById('signupError');
+    const signupSuccess = document.getElementById('signupSuccess');
+
+    signupForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!validateEmail(signupEmail.value.trim())) {
+        signupError.style.display = 'block';
+        return;
+      }
+      signupError.style.display = 'none';
+      signupForm.style.opacity = '0';
+      signupForm.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => {
+        signupForm.style.display = 'none';
+        signupSuccess.classList.add('show');
+      }, 200);
+    });
+
+    signupEmail.addEventListener('input', function() {
+      signupError.style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
